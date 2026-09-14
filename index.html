@@ -577,13 +577,17 @@
   // ---- Supabase config ----
   // Replace these two values with your own project's details.
   // Find them in Supabase: Project Settings -> API.
-  const SUPABASE_URL = "https://jyvevevyxmpofqtbnolj.supabase.co"
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5dmV2ZXZ5eG1wb2ZxdGJub2xqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzODEwMjksImV4cCI6MjEwNDk1NzAyOX0.lgjQ3XPs4h9IQsdb1afY-ZK9w5TFvFDn5ngpmF6orT8";
+  const SUPABASE_URL = "YOUR_SUPABASE_URL";
+  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
   let client = null;
   if (SUPABASE_URL !== "YOUR_SUPABASE_URL" && window.supabase) {
     client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   }
+
+  // Web3Forms sends you an email notification for every submission.
+  // Get a free access key at https://web3forms.com
+  const WEB3FORMS_ACCESS_KEY = "d5d4a1ba-9758-441b-bcc5-14e327902814";
 
   const form = document.getElementById('lead-form');
   const status = document.getElementById('form-status');
@@ -601,29 +605,57 @@
       message: form.message.value.trim(),
     };
 
-    if (!client) {
-      status.textContent = 'Form isn\'t connected to Supabase yet — see the README to finish setup.';
-      status.className = 'form-status err';
-      return;
-    }
-
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
 
-    const { error } = await client.from('leads').insert([payload]);
+    // 1. Save to Supabase (your permanent record of every lead)
+    let supabaseOk = true;
+    if (client) {
+      const { error } = await client.from('leads').insert([payload]);
+      if (error) {
+        console.error('Supabase error:', error);
+        supabaseOk = false;
+      }
+    }
+
+    // 2. Email you a notification via Web3Forms
+    let emailOk = true;
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New lead: ${payload.name} (${payload.service})`,
+          from_name: 'Signal & Frame website',
+          ...payload,
+        }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        console.error('Web3Forms error:', data);
+        emailOk = false;
+      }
+    } catch (err) {
+      console.error('Web3Forms error:', err);
+      emailOk = false;
+    }
 
     submitBtn.disabled = false;
     submitBtn.textContent = 'Send message';
 
-    if (error) {
-      console.error(error);
-      status.textContent = 'Something went wrong — please try again or email directly.';
-      status.className = 'form-status err';
-    } else {
+    if (supabaseOk && emailOk) {
       status.textContent = 'Message sent. We\'ll be in touch soon.';
       status.className = 'form-status ok';
       form.reset();
+    } else if (emailOk) {
+      status.textContent = 'Message sent — but wasn\'t saved to your records. Check the console for details.';
+      status.className = 'form-status ok';
+      form.reset();
+    } else {
+      status.textContent = 'Something went wrong — please try again or email directly.';
+      status.className = 'form-status err';
     }
   });
 </script>
