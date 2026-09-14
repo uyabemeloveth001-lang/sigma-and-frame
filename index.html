@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal &amp; Frame — Video, Design &amp; Marketing Studio</title>
+<meta name="description" content="Signal & Frame is a studio for video editing, web design, marketing and consulting — one team taking your project from plan to launch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1917;
+    --panel:#221F1C;
+    --panel-2:#2A2622;
+    --paper:#F3EFE7;
+    --paper-dim:#C9C2B4;
+    --signal:#FF5A36;
+    --signal-dim:#a5401f;
+    --scope:#4F8A80;
+    --line: rgba(243,239,231,0.14);
+    --radius: 3px;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  h1,h2,h3{
+    font-family:var(--serif);
+    font-weight:500;
+    line-height:1.1;
+    margin:0;
+    color:var(--paper);
+  }
+
+  p{ margin:0; }
+
+  .tc{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.03em;
+    color:var(--scope);
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(27,25,23,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:76px;
+  }
+  .brand{
+    font-family:var(--serif);
+    font-size:20px;
+    font-weight:500;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--signal);
+    display:inline-block;
+  }
+  .navlinks{
+    display:flex;
+    gap:36px;
+    align-items:center;
+  }
+  .navlinks a{
+    text-decoration:none;
+    font-size:15px;
+    color:var(--paper-dim);
+    transition:color .15s ease;
+  }
+  .navlinks a:hover{ color:var(--paper); }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 20px;
+    border-radius:var(--radius);
+    font-size:14.5px;
+    font-weight:500;
+    text-decoration:none;
+    cursor:pointer;
+    border:1px solid transparent;
+    font-family:var(--sans);
+  }
+  .btn-primary{
+    background:var(--signal);
+    color:#1B1917;
+  }
+  .btn-primary:hover{ background:#ff6f4d; }
+  .btn-ghost{
+    border-color:var(--line);
+    color:var(--paper);
+    background:transparent;
+  }
+  .btn-ghost:hover{ border-color:var(--paper-dim); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:110px 0 100px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:60px;
+    align-items:center;
+  }
+  .hero .tc{ margin-bottom:22px; display:block; }
+  .hero h1{
+    font-size:clamp(38px, 5vw, 60px);
+    max-width:14ch;
+    letter-spacing:-0.01em;
+  }
+  .hero-sub{
+    margin-top:26px;
+    font-size:18px;
+    color:var(--paper-dim);
+    max-width:46ch;
+  }
+  .hero-actions{
+    margin-top:38px;
+    display:flex;
+    gap:14px;
+  }
+  .scope-panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px;
+  }
+  .scope-panel .tc{ color:var(--paper-dim); margin-bottom:16px; }
+  .waveform{ width:100%; height:auto; display:block; }
+  .waveform path{ stroke:var(--scope); }
+  .waveform .peak{ stroke:var(--signal); }
+
+  /* ---------- Section shared ---------- */
+  section{ padding:96px 0; border-top:1px solid var(--line); }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:40px;
+    margin-bottom:56px;
+  }
+  .section-head h2{ font-size:clamp(28px,3vw,38px); max-width:16ch; }
+  .section-head .tc{ margin-bottom:14px; display:block; }
+  .section-lede{
+    max-width:34ch;
+    color:var(--paper-dim);
+    font-size:16px;
+  }
+
+  /* ---------- Pipeline / Services ---------- */
+  .pipeline{
+    display:flex;
+    flex-direction:column;
+  }
+  .pipe-row{
+    display:grid;
+    grid-template-columns:120px 1fr 1.3fr;
+    gap:32px;
+    padding:32px 0;
+    border-top:1px solid var(--line);
+    align-items:start;
+  }
+  .pipe-row:last-child{ border-bottom:1px solid var(--line); }
+  .pipe-row .tc{ padding-top:6px; }
+  .pipe-row h3{ font-size:24px; }
+  .pipe-row .pipe-desc{ color:var(--paper-dim); font-size:15.5px; max-width:52ch; }
+  .pipe-row .pipe-desc ul{ margin:14px 0 0; padding-left:18px; }
+  .pipe-row .pipe-desc li{ margin-bottom:6px; }
+
+  /* ---------- Process ---------- */
+  .process-list{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:28px;
+  }
+  .process-item{
+    border-left:2px solid var(--line);
+    padding-left:20px;
+  }
+  .process-item .tc{ display:block; margin-bottom:14px; }
+  .process-item h3{ font-size:19px; margin-bottom:10px; font-family:var(--sans); font-weight:600; }
+  .process-item p{ color:var(--paper-dim); font-size:14.5px; }
+
+  /* ---------- Why / positioning ---------- */
+  .why-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:start;
+  }
+  .why-copy h2{ font-size:clamp(26px,3vw,34px); max-width:15ch; margin-bottom:22px; }
+  .why-copy p{ color:var(--paper-dim); font-size:16px; max-width:48ch; }
+  .why-copy p + p{ margin-top:16px; }
+  .why-points{ display:flex; flex-direction:column; gap:0; }
+  .why-point{
+    padding:22px 0;
+    border-top:1px solid var(--line);
+  }
+  .why-point:last-child{ border-bottom:1px solid var(--line); }
+  .why-point h4{ font-family:var(--sans); font-weight:600; font-size:16px; margin-bottom:6px; }
+  .why-point p{ color:var(--paper-dim); font-size:14.5px; }
+
+  /* ---------- Work (placeholder gallery) ---------- */
+  .work-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2px;
+    background:var(--line);
+  }
+  .work-card{
+    background:var(--panel);
+    aspect-ratio:4/3;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:20px;
+    position:relative;
+  }
+  .work-card .tc{ margin-bottom:8px; color:var(--paper-dim); }
+  .work-card h4{ font-family:var(--sans); font-weight:600; font-size:15px; }
+  .work-empty-note{
+    margin-top:20px;
+    font-size:14px;
+    color:var(--paper-dim);
+    font-style:italic;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-grid{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:60px;
+  }
+  .contact-copy h2{ font-size:clamp(28px,3vw,38px); max-width:14ch; }
+  .contact-copy p{ margin-top:20px; color:var(--paper-dim); font-size:16px; max-width:40ch; }
+  .contact-detail{ margin-top:36px; }
+  .contact-detail div{ margin-bottom:10px; font-size:15px; }
+  .contact-detail span{ color:var(--paper-dim); display:inline-block; width:90px; }
+
+  form{ display:flex; flex-direction:column; gap:18px; }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field label{ font-size:13.5px; color:var(--paper-dim); }
+  .field input, .field select, .field textarea{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:13px 14px;
+    color:var(--paper);
+    font-family:var(--sans);
+    font-size:15px;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:2px solid var(--scope);
+    outline-offset:1px;
+  }
+  .field textarea{ resize:vertical; min-height:110px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .form-status{ font-size:14.5px; min-height:20px; }
+  .form-status.ok{ color:#8fd0a0; }
+  .form-status.err{ color:#e18a72; }
+
+  /* ---------- Footer ---------- */
+  footer{ border-top:1px solid var(--line); padding:40px 0; }
+  .footer-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:14px;
+    color:var(--paper-dim);
+  }
+  .footer-row a{ text-decoration:none; }
+
+  @media (max-width: 860px){
+    .hero-grid, .why-grid, .contact-grid{ grid-template-columns:1fr; }
+    .process-list{ grid-template-columns:1fr 1fr; }
+    .pipe-row{ grid-template-columns:1fr; gap:10px; }
+    .work-grid{ grid-template-columns:1fr 1fr; }
+    .row2{ grid-template-columns:1fr; }
+    nav .navlinks{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="brand"><span class="dot"></span>Signal &amp; Frame</a>
+    <div class="navlinks">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="btn btn-primary">Start a project</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none;">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="tc">00:00:00:00 — new project</span>
+        <h1>We plan it, build it, cut it, and put it in front of the people who matter.</h1>
+        <p class="hero-sub">Signal &amp; Frame is a small studio covering consulting, web design, video editing and marketing — one team carrying your project from a first conversation to something live.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Start a project</a>
+          <a href="#services" class="btn btn-ghost">See how we work</a>
+        </div>
+      </div>
+      <div class="scope-panel">
+        <span class="tc">Signal monitor</span>
+        <svg class="waveform" viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 80 L20 80 L30 40 L40 120 L50 20 L60 140 L70 60 L80 100 L90 80 L400 80" stroke-width="1.4" stroke-opacity="0.5"/>
+          <path class="peak" d="M0 80 Q40 30 80 80 T160 80 T240 80 T320 80 T400 80" stroke-width="2"/>
+          <line x1="0" y1="80" x2="400" y2="80" stroke="currentColor" stroke-opacity="0.15"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES / PIPELINE -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="tc">The pipeline</span>
+          <h2>Four services, one continuous project</h2>
+        </div>
+        <p class="section-lede">Most studios hand you off between specialists. Here the same team carries the project through each stage, so nothing gets lost in translation.</p>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipe-row">
+          <span class="tc">00:00:00:00</span>
+          <h3>Consulting</h3>
+          <div class="pipe-desc">
+            We start by understanding the business, not just the brief.
+            <ul>
+              <li>Goals, audience and budget laid out clearly</li>
+              <li>A written plan before any design or filming starts</li>
+              <li>Honest advice on what's actually needed — and what isn't</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pipe-row">
+          <span class="tc">00:00:15:00</span>
+          <h3>Web design</h3>
+          <div class="pipe-desc">
+            A site built to hold up in front of real clients and partners.
+            <ul>
+              <li>Fast, clean sites built with modern tools</li>
+              <li>Mobile-first, since most visitors won't be on a laptop</li>
+              <li>Built to be handed over — you own the code, not locked to us</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pipe-row">
+          <span class="tc">00:01:30:00</span>
+          <h3>Video editing</h3>
+          <div class="pipe-desc">
+            Raw footage turned into something worth watching.
+            <ul>
+              <li>Promotional, social and product video editing</li>
+              <li>Colour correction, sound cleanup, subtitles</li>
+              <li>Cut for the platform it's actually going to live on</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pipe-row">
+          <span class="tc">00:03:00:00</span>
+          <h3>Marketing</h3>
+          <div class="pipe-desc">
+            Getting the finished work in front of the right people.
+            <ul>
+              <li>Content and posting plans for social platforms</li>
+              <li>Simple campaign structure for paid promotion</li>
+              <li>Clear reporting on what's working and what isn't</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="tc">How an engagement runs</span>
+          <h2>From first call to launch</h2>
+        </div>
+        <p class="section-lede">No long contracts before you know how we work. Every project starts small and scales once there's trust.</p>
+      </div>
+      <div class="process-list">
+        <div class="process-item">
+          <span class="tc">Step 1</span>
+          <h3>Discovery call</h3>
+          <p>A short conversation about the goal, timeline and budget — no cost, no obligation.</p>
+        </div>
+        <div class="process-item">
+          <span class="tc">Step 2</span>
+          <h3>Written proposal</h3>
+          <p>A clear scope and price before anything starts, so there are no surprises later.</p>
+        </div>
+        <div class="process-item">
+          <span class="tc">Step 3</span>
+          <h3>Production</h3>
+          <p>Regular check-ins as the work is built, edited, or launched — never a silent black box.</p>
+        </div>
+        <div class="process-item">
+          <span class="tc">Step 4</span>
+          <h3>Delivery &amp; support</h3>
+          <p>Final files or a live site, plus a short support window to fix anything that comes up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="wrap why-grid">
+      <div class="why-copy">
+        <h2>Why work with a small studio</h2>
+        <p>Signal &amp; Frame is new — we're building our client list from scratch, and we'd rather be upfront about that than invent a history we don't have.</p>
+        <p>What that means in practice: your project gets direct attention from the person actually doing the work, pricing that's built around what you need rather than a fixed package, and a studio that has every reason to earn a strong first impression rather than coast on past reputation.</p>
+      </div>
+      <div class="why-points">
+        <div class="why-point">
+          <h4>Direct communication</h4>
+          <p>You talk to the person doing the work, not an account manager relaying messages.</p>
+        </div>
+        <div class="why-point">
+          <h4>Transparent pricing</h4>
+          <p>A written quote before work begins, with no hidden add-ons once you've agreed.</p>
+        </div>
+        <div class="why-point">
+          <h4>Fast turnaround</h4>
+          <p>Small studio, small overhead — projects move as fast as the work allows.</p>
+        </div>
+        <div class="why-point">
+          <h4>You own what's made</h4>
+          <p>Source files, code and accounts are handed over at the end. Nothing held hostage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK (placeholder) -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="tc">Recent work</span>
+          <h2>Case studies, as they land</h2>
+        </div>
+        <p class="section-lede">This section fills in as real projects wrap up. Reach out and yours could be the first one here.</p>
+      </div>
+      <div class="work-grid">
+        <div class="work-card"><span class="tc">Coming soon</span><h4>Web design project</h4></div>
+        <div class="work-card"><span class="tc">Coming soon</span><h4>Video editing project</h4></div>
+        <div class="work-card"><span class="tc">Coming soon</span><h4>Marketing campaign</h4></div>
+      </div>
+      <p class="work-empty-note">Replace this section with real screenshots, video reels and outcomes as soon as the first projects are done — that will do more for credibility than anything written here.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-copy">
+        <span class="tc">Start a project</span>
+        <h2>Tell us what you're building</h2>
+        <p>Fill in the form and expect a reply within one to two business days. There's no charge for the first conversation.</p>
+        <div class="contact-detail">
+          <div><span>Email</span> hello@signalandframe.example</div>
+          <div><span>WhatsApp</span> +234 000 000 0000</div>
+          <div><span>Based in</span> Lagos, Nigeria</div>
+        </div>
+      </div>
+
+      <form id="lead-form">
+        <div class="row2">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" required>
+          </div>
+          <div class="field">
+            <label for="company">Company (optional)</label>
+            <input id="company" name="company" type="text">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required>
+          </div>
+          <div class="field">
+            <label for="service">Service you need</label>
+            <select id="service" name="service" required>
+              <option value="">Select one</option>
+              <option value="consulting">Consulting</option>
+              <option value="web-design">Web design</option>
+              <option value="video-editing">Video editing</option>
+              <option value="marketing">Marketing</option>
+              <option value="multiple">More than one</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="message">Project details</label>
+          <textarea id="message" name="message" required placeholder="What are you trying to build, and by when?"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send message</button>
+        <div id="form-status" class="form-status"></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© <span id="year"></span> Signal &amp; Frame</span>
+    <a href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---- Supabase config ----
+  // Replace these two values with your own project's details.
+  // Find them in Supabase: Project Settings -> API.
+  const SUPABASE_URL = "https://jyvevevyxmpofqtbnolj.supabase.co"
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5dmV2ZXZ5eG1wb2ZxdGJub2xqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzODEwMjksImV4cCI6MjEwNDk1NzAyOX0.lgjQ3XPs4h9IQsdb1afY-ZK9w5TFvFDn5ngpmF6orT8";
+
+  let client = null;
+  if (SUPABASE_URL !== "YOUR_SUPABASE_URL" && window.supabase) {
+    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+
+  const form = document.getElementById('lead-form');
+  const status = document.getElementById('form-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.textContent = '';
+    status.className = 'form-status';
+
+    const payload = {
+      name: form.name.value.trim(),
+      company: form.company.value.trim(),
+      email: form.email.value.trim(),
+      service: form.service.value,
+      message: form.message.value.trim(),
+    };
+
+    if (!client) {
+      status.textContent = 'Form isn\'t connected to Supabase yet — see the README to finish setup.';
+      status.className = 'form-status err';
+      return;
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    const { error } = await client.from('leads').insert([payload]);
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send message';
+
+    if (error) {
+      console.error(error);
+      status.textContent = 'Something went wrong — please try again or email directly.';
+      status.className = 'form-status err';
+    } else {
+      status.textContent = 'Message sent. We\'ll be in touch soon.';
+      status.className = 'form-status ok';
+      form.reset();
+    }
+  });
+</script>
+
+</body>
+</html>
